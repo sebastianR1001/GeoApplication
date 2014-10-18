@@ -36,23 +36,13 @@
         android:layout_height="match_parent"
         android:gravity="top"
         android:keepScreenOn="true"
-        android:text="@string/latitude"
-        android:id="@+id/viewLatitude"
+        android:text="@string/location"
+        android:id="@+id/viewLocation"
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:textStyle="bold" />
     
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="40dp"
-        android:text="@string/longitude"
-        android:id="@+id/viewLongitude"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,10 +64,21 @@
         android:textSize="20sp"
         android:textStyle="bold" />
     
+    
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="200dp"
+        android:text="@string/altitude"
+        android:id="@+id/altitude"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="260dp"
         android:text="@string/accuracy"
         android:id="@+id/accuracy"
         android:textColor="#ffffff"
@@ -88,7 +89,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="300dp"
         android:text="@string/last_fix"
         android:id="@+id/lastFix"
         android:textColor="#ffffff"
@@ -117,13 +118,6 @@
         </LinearLayout>
 
         <requestFocus />
-
-        <Button
-            android:id="@+id/startButton"
-            android:layout_marginLeft="250dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start" />
 
 
     </FrameLayout>

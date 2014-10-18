@@ -1,0 +1,121 @@
+package geo.geoapplication;
+
+import java.util.Date;
+
+import android.location.Location;
+import android.location.LocationManager;
+
+public class Gps {
+
+	public Gps(LocationManager locMan, Location loc) {
+		this.locationManager = locMan;
+		
+		this.location = loc;
+	}
+	
+	public LocationManager locationManager;
+	private Location location;
+	
+	public Location savedLocation = null;
+	
+	public String getGpsStatus() {
+		
+		String gpsStatus = "";
+		
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+            gpsStatus = "GPS";
+        else
+        	gpsStatus = "GPS Disabled. Please, turn it on";
+        
+        
+        return gpsStatus;
+	}
+	
+	public String showLocation() {
+        String latitude  = "Latitude: ";
+        String longitude = "Longitude: ";
+        if(this.location == null) {
+            latitude  += "...";
+            longitude += "...";
+        } else {
+            latitude  += this.location.getLatitude();
+            longitude += this.location.getLongitude();
+        }
+        
+        return latitude + " " + longitude;
+    }
+   
+	
+	
+	
+	public String showSpeed() {
+        String speed = "Speed: ";
+        
+        Double speedValue; 
+        java.text.DecimalFormat df=new java.text.DecimalFormat(); 
+        df.setMaximumFractionDigits(1); 
+        df.setMinimumFractionDigits(0); 
+        
+        
+        if(savedLocation == null || this.location == null) {
+        	speed += "0 km/h";
+        }
+        else {
+        	speedValue = this.location.getSpeed()*3.6;
+            speed += df.format(speedValue) + "km/h";
+        }            
+        
+        return speed;
+    }
+	
+	public String showDistance() {
+        String distance = "Distance: ";
+       
+        if(savedLocation == null || this.location == null) {
+        	distance += "0 km";
+        }
+        else {
+        	distance += savedLocation.distanceTo(this.location)/1000 + " km";
+        }            
+        
+        return distance;
+    }
+	
+	
+	public String showAccuracy() {
+        String accuracy = "Accuracy: ";
+        if(savedLocation == null || this.location == null) {
+        	accuracy += "can't calculate";
+        }
+        else {
+        	accuracy += this.location.getAccuracy() + "m \n";
+        }            
+        
+        return accuracy;
+    }
+	
+	
+	public String showLastFix() {
+        String lastFix = "Last fix: ";
+        if(savedLocation == null || this.location == null) {
+        	lastFix += "can't calculate";
+        }
+        else {
+            lastFix += new Date(this.location.getTime()) + "\n";
+        }            
+        
+        return lastFix;
+    }
+	
+	public String showElevation() {
+        String lastFix = "Elevation: ";
+        if(savedLocation == null || this.location == null) {
+        	lastFix += "can't calculate";
+        }
+        else {
+            lastFix += this.location.getAltitude() + "\n";
+        }            
+        
+        return lastFix;
+    }
+}
