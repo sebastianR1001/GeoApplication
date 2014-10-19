@@ -1,8 +1,6 @@
 INDEX VERSION 1.126+C:\Users\sraczkow\Desktop\INZ\GeoApplication\GeoApplication\.metadata\.plugins\org.eclipse.jdt.core
 2983344384.index
-949054158.index
+2395199770.index
 3079022867.index
 1284074322.index
-2395199770.index
 1377913038.index
-586523135.index

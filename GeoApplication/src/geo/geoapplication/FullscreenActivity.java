@@ -62,6 +62,9 @@ public class FullscreenActivity extends Activity {
     private LocationManager locationManager;
     private Location location;
     private Gps gps;
+    
+    private Thread thread;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,29 @@ public class FullscreenActivity extends Activity {
         gpsInformation.setText(gps.getGpsStatus());
         
         viewLocation.setText(gps.showLocation());
+        
+        //start waiting for stop
+        thread = new Thread() {
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    	Location lastLocation = gps.location;
+                    	try {
+        					Thread.sleep(2000);
+        					if(lastLocation == gps.location) {
+        						speed.setText("Speed: 0 km/h");
+        					}
+        				} catch (InterruptedException e) {
+        					// TODO Auto-generated catch block
+        					e.printStackTrace();
+        				}
+                    }
+                });
+            }
+        };
+        thread.start();
+        
         
         ///////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
@@ -248,9 +274,6 @@ public class FullscreenActivity extends Activity {
         super.onStop();
     }
     
-    
-    
-      
    
 }
 

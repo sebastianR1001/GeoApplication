@@ -1,0 +1,27 @@
+package geo.geoapplication;
+
+import android.location.Location;
+import geo.geoapplication.Gps;
+
+public class Waiting {
+	
+	private Location lastLocation;
+	private Location currentLocation;
+	private Gps gps;
+	
+	public Waiting(Gps _gps) {
+		this.gps = _gps;
+	}
+	
+	public void run() {
+        while(true) {
+            try {
+            	lastLocation = 
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}

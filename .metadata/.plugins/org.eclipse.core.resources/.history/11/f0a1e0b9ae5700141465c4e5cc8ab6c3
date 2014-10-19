@@ -1,0 +1,33 @@
+package geo.geoapplication;
+
+import android.location.Location;
+import geo.geoapplication.Gps;
+import geo.geoapplication.FullscreenActivity;
+
+public class Waiting {
+	
+	private Location lastLocation;
+	private Location currentLocation;
+	private Gps gps;
+	
+	public Waiting(Gps _gps) {
+		this.gps = _gps;
+	}
+	
+	public void run() {
+        while(true) {
+            try {
+            	lastLocation = this.gps.location;
+                Thread.sleep(2000);
+                currentLocation = this.gps.location;
+                
+                if(lastLocation == currentLocation) {
+                	
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}

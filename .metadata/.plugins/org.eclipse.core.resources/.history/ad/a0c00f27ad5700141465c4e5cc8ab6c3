@@ -1,0 +1,21 @@
+package geo.geoapplication;
+
+import geo.geoapplication.Gps;
+
+public class Waiting {
+	
+	public Waiting() {
+	
+	}
+	
+	public void run() {
+        while(true) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}

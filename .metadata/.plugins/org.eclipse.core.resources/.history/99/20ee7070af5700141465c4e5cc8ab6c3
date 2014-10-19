@@ -1,0 +1,35 @@
+package geo.geoapplication;
+
+import android.location.Location;
+import geo.geoapplication.Gps;
+import geo.geoapplication.FullscreenActivity;
+
+public class Waiting {
+	
+	private Location lastLocation;
+	private Location currentLocation;
+	private Gps gps;
+	private FullscreenActivity fullscreenActivity;
+	
+	public Waiting(Gps _gps, FullscreenActivity _fullscreeActivity) {
+		this.gps = _gps;
+		this.fullscreenActivity = _fullscreeActivity;
+	} 
+	
+	public void run() {
+        while(true) {
+            try {
+            	lastLocation = this.gps.location;
+                Thread.sleep(3000);
+                currentLocation = this.gps.location;
+                
+                if(lastLocation == currentLocation) {
+                	this.fullscreenActivity.setSpeedValue("0 km/h");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+}
