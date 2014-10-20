@@ -20,7 +20,7 @@ public class Gps {
 	public Location location;
 	private Location lastLocation;
 	
-	private float totalDistance = 0;
+	public float totalDistance = 0;
 	
 	private java.text.DecimalFormat precision =new java.text.DecimalFormat(); 
 	
@@ -103,7 +103,7 @@ public class Gps {
         double elevationValue;
         
         if(savedLocation == null || this.location == null) {
-        	elevation += "...";
+        	elevation += "0 AMSL";
         }
         else {
         	elevationValue = this.location.getAltitude();

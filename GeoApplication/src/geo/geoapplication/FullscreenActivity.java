@@ -5,14 +5,17 @@ import geo.geoapplication.util.SystemUiHider;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -54,17 +57,27 @@ public class FullscreenActivity extends Activity {
     private TextView gpsInformation;
     public TextView viewLocation;
     private TextView speed;
+    private TextView time;
     private TextView distance;
     private TextView altitude;
     private TextView accuracy;
     private TextView lastFix;
     
+    private Button startButton;
+    private Button resetButton;
+    
     private LocationManager locationManager;
     private Location location;
     private Gps gps;
     
-    private Thread thread;
-    private Handler handler;
+    private long startTime = 0L;
+    private Handler customHandler = new Handler();
+    long timeInMilliseconds = 0L;
+    long timeSwapBuff = 0L;
+    long updatedTime = 0L;
+    
+    boolean timeStarted = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +94,10 @@ public class FullscreenActivity extends Activity {
         altitude = (TextView)findViewById(R.id.altitude);
         accuracy = (TextView)findViewById(R.id.accuracy);
         lastFix = (TextView)findViewById(R.id.lastFix);
+        time = (TextView)findViewById(R.id.time);
+        
+        startButton = (Button) findViewById(R.id.startButton);
+        resetButton = (Button) findViewById(R.id.resetButton);
         
         ////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////////////
@@ -95,28 +112,47 @@ public class FullscreenActivity extends Activity {
         viewLocation.setText(gps.showLocation());
         
         //start waiting for stop
-        thread = new Thread() {
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    	Location lastLocation = gps.location;
-                    	try {
-        					Thread.sleep(2000);
-        					if(lastLocation == gps.location) {
-        						speed.setText("Speed: 0 km/h");
-        					}
-        				} catch (InterruptedException e) {
-        					// TODO Auto-generated catch block
-        					e.printStackTrace();
-        				}
-                    }
-                });
-            }
-        };
-        thread.start();
+        new WaitingForStop().execute();
+
+        //timer
+        startButton.setOnClickListener(new View.OnClickListener() {
+	        public void onClick(View view) {
+	        	if(timeStarted) {
+	        		timeStarted = false;
+		        	gps.savedLocation = null;
+		        	timeSwapBuff += timeInMilliseconds;
+		        	customHandler.removeCallbacks(updateTimerThread);
+		        	startButton.setText("START");
+	        	}
+	        	else {
+		        	timeStarted = true;
+		        	startTime = SystemClock.uptimeMillis();
+		        	customHandler.postDelayed(updateTimerThread, 0);
+		        	startButton.setText("STOP");
+	        	}
+	        }
+        });
         
-        
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+	        public void onClick(View view) {
+	        	timeStarted = false;
+	        	timeSwapBuff += timeInMilliseconds;
+	        	customHandler.removeCallbacks(updateTimerThread);
+	        	
+	        	startTime = 0L;
+	            timeInMilliseconds = 0L;
+	            timeSwapBuff = 0L;
+	            updatedTime = 0L;
+	            
+	            gps.totalDistance = 0;
+	            
+	            speed.setText("Speed: 0 km/h");
+	            distance.setText("Distance: 0 m");
+	            time.setText("Time: 00:00:00");
+	        }
+        });
+
         ///////////////////////////////////////////////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
 
@@ -244,7 +280,9 @@ public class FullscreenActivity extends Activity {
         public void onLocationChanged(Location location) {
         	viewLocation.setText(gps.showLocation());
         	speed.setText(gps.showSpeed());
-        	distance.setText(gps.showDistance());
+        	if(timeStarted) {
+        		distance.setText(gps.showDistance());
+        	}
         	altitude.setText(gps.showElevation());
         	accuracy.setText(gps.showAccuracy());
         	lastFix.setText(gps.showLastFix());
@@ -253,6 +291,8 @@ public class FullscreenActivity extends Activity {
         	        	
             if(gps.savedLocation == null)
                 gps.savedLocation = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        
+            new WaitingForStop().execute();
         }
     };
     
@@ -274,7 +314,51 @@ public class FullscreenActivity extends Activity {
         super.onStop();
     }
     
-   
+    private class WaitingForStop extends AsyncTask<Void, Void, Void> {
+    	
+    	private Location lastLocation;
+    	
+    	@Override
+    	protected void onPreExecute() {
+    		lastLocation = gps.location;
+    	}
+    	
+    	@Override
+    	protected Void doInBackground(Void... params) {
+            try {
+            	Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		return null;
+    	}
+    	
+    	@Override
+    	protected void onPostExecute(Void result) {
+    		if(lastLocation == gps.location) {
+				speed.setText("Speed: 0 km/h");
+			}
+    	}
+    }
+    
+    
+    private Runnable updateTimerThread = new Runnable() {
+	    	public void run() {
+		    	timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+		    	updatedTime = timeSwapBuff + timeInMilliseconds;
+		    	int secs = (int) (updatedTime / 1000);
+		    	int mins = secs / 60;
+		    	secs = secs % 60;
+		    	int milliseconds = (int) (updatedTime % 100);
+		    	time.setText("Time: " + "" + mins + ":"
+		    	+ String.format("%02d", secs) + ":"
+		    	+ String.format("%02d", milliseconds));
+		    	customHandler.postDelayed(this, 0);
+	    	}
+    };
+
+    
 }
 
 
