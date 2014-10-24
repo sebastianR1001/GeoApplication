@@ -12,11 +12,14 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 
 /**
@@ -54,11 +57,16 @@ public class FullscreenActivity extends Activity {
      */
     private SystemUiHider mSystemUiHider;
     
+    private View advancedLinear;
+    private  Animation advancedShow;
+    private  Animation advancedHide;
+    
     private TextView gpsInformation;
-    public TextView viewLocation;
+    private TextView viewLocation;
     private TextView speed;
     private TextView time;
     private TextView distance;
+    private TextView distanceUnit;
     private TextView altitude;
     private TextView accuracy;
     private TextView lastFix;
@@ -77,6 +85,7 @@ public class FullscreenActivity extends Activity {
     long updatedTime = 0L;
     
     boolean timeStarted = false;
+    boolean advancedLinearIsHide = false;
 
 
     @Override
@@ -87,10 +96,12 @@ public class FullscreenActivity extends Activity {
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
+        advancedLinear = findViewById(R.id.advanced);
         viewLocation  = (TextView)findViewById(R.id.viewLocation);
         gpsInformation = (TextView)findViewById(R.id.gpsInformation);
         speed = (TextView)findViewById(R.id.speed);
         distance = (TextView)findViewById(R.id.distance);
+        distanceUnit = (TextView)findViewById(R.id.distanceUnit);
         altitude = (TextView)findViewById(R.id.altitude);
         accuracy = (TextView)findViewById(R.id.accuracy);
         lastFix = (TextView)findViewById(R.id.lastFix);
@@ -99,20 +110,10 @@ public class FullscreenActivity extends Activity {
         startButton = (Button) findViewById(R.id.startButton);
         resetButton = (Button) findViewById(R.id.resetButton);
         
-        ////////////////////////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////////////////////
-        //writing gps information
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);      
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        advancedHide = AnimationUtils.loadAnimation(this, R.anim.abc_slide_out_bottom);
+        advancedShow = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_bottom);
         
-        gps = new Gps(locationManager, location);
-        
-        gpsInformation.setText(gps.getGpsStatus());
-        
-        viewLocation.setText(gps.showLocation());
-        
-        //start waiting for stop
-        new WaitingForStop().execute();
+        GpsInit();  //initialize gps
 
         //timer
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -147,9 +148,25 @@ public class FullscreenActivity extends Activity {
 	            
 	            gps.totalDistance = 0;
 	            
-	            speed.setText("Speed: 0 km/h");
-	            distance.setText("Distance: 0 m");
-	            time.setText("Time: 00:00:00");
+	            speed.setText("0");
+	            distance.setText("0");
+	            time.setText("00:00:00");
+	        }
+        });
+        
+        advancedLinear.setOnClickListener(new View.OnClickListener() {
+	        public void onClick(View view) {
+	        	if(advancedLinearIsHide) {
+	        		advancedLinear.setTop(contentView.getHeight()-320);
+	        		advancedLinear.startAnimation(advancedShow);
+	        		advancedLinearIsHide = false;
+	        		gpsInformation.setText(gps.getGpsStatus());
+	        	}
+	        	else {
+	        		advancedLinear.setTop(contentView.getHeight()-50);
+	        		advancedLinear.startAnimation(advancedHide);
+	        		advancedLinearIsHide = true;
+	        	}
 	        }
         });
 
@@ -199,9 +216,8 @@ public class FullscreenActivity extends Activity {
                 });
 
         // Set up the user interaction to manually show or hide the system UI.
-        contentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        controlsView.setOnClickListener(new View.OnClickListener() {
+	        public void onClick(View view) {
                 if (TOGGLE_ON_CLICK) {
                     mSystemUiHider.toggle();
                 } else {
@@ -209,6 +225,10 @@ public class FullscreenActivity extends Activity {
                 }
             }
         });
+        
+        /////////////////ADVANCED LINEAR/////////////////////////////////////////
+        
+        
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
@@ -223,7 +243,7 @@ public class FullscreenActivity extends Activity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+        delayedHide(0);
     }
 
 
@@ -283,6 +303,7 @@ public class FullscreenActivity extends Activity {
         	if(timeStarted) {
         		distance.setText(gps.showDistance());
         	}
+        	distanceUnit.setText(gps.showDistanceUnit());
         	altitude.setText(gps.showElevation());
         	accuracy.setText(gps.showAccuracy());
         	lastFix.setText(gps.showLastFix());
@@ -337,7 +358,7 @@ public class FullscreenActivity extends Activity {
     	@Override
     	protected void onPostExecute(Void result) {
     		if(lastLocation == gps.location) {
-				speed.setText("Speed: 0 km/h");
+				speed.setText("0");
 			}
     	}
     }
@@ -351,13 +372,30 @@ public class FullscreenActivity extends Activity {
 		    	int mins = secs / 60;
 		    	secs = secs % 60;
 		    	int milliseconds = (int) (updatedTime % 100);
-		    	time.setText("Time: " + "" + mins + ":"
+		    	time.setText("" + "" + mins + ":"
 		    	+ String.format("%02d", secs) + ":"
 		    	+ String.format("%02d", milliseconds));
 		    	customHandler.postDelayed(this, 0);
 	    	}
     };
-
+    
+    
+    private void GpsInit() {
+		////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////
+		//writing gps information
+		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);      
+		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
+		gps = new Gps(locationManager, location);
+		
+		gpsInformation.setText(gps.getGpsStatus());
+		
+		viewLocation.setText(gps.showLocation());
+		
+		//start waiting for stop
+		new WaitingForStop().execute();
+    }
     
 }
 

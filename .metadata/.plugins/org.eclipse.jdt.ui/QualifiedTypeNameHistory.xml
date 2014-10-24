@@ -4,4 +4,11 @@
 <fullyQualifiedTypeName name="android.os.AsyncTask"/>
 <fullyQualifiedTypeName name="android.widget.Button"/>
 <fullyQualifiedTypeName name="android.os.SystemClock"/>
+<fullyQualifiedTypeName name="geo.geoapplication.R.id"/>
+<fullyQualifiedTypeName name="android.app.ActionBar.LayoutParams"/>
+<fullyQualifiedTypeName name="android.widget.AbsoluteLayout"/>
+<fullyQualifiedTypeName name="android.util.DisplayMetrics"/>
+<fullyQualifiedTypeName name="android.view.animation.Animation"/>
+<fullyQualifiedTypeName name="android.view.animation.TranslateAnimation"/>
+<fullyQualifiedTypeName name="android.view.animation.AccelerateInterpolator"/>
 </qualifiedTypeNameHistroy>

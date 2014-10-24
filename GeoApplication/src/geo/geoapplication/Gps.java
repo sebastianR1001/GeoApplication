@@ -50,14 +50,14 @@ public class Gps {
             longitude += this.location.getLongitude();
         }
         
-        return latitude + " " + longitude;
+        return latitude + "\n" + longitude;
     }
    
 	
 	
 	
 	public String showSpeed() {
-        String speed = "Speed: ";
+        String speed = "";
         Double speedValue; 
                 
         if(savedLocation == null || this.location == null) {
@@ -65,18 +65,18 @@ public class Gps {
         }
         else {
         	speedValue = this.location.getSpeed()*3.6;
-            speed += precision.format(speedValue) + "km/h";
+            speed += precision.format(speedValue);
         }            
         
         return speed;
     }
 	
 	public String showDistance() {
-        String distance = "Distance: ";
+        String distance = "";
         float distanceValue;
        
         if(savedLocation == null || this.location == null) {
-        	distance += "0 m";
+        	distance += "0";
         }
         else {
         	if(lastLocation == null) {
@@ -86,10 +86,10 @@ public class Gps {
         	distanceValue = totalDistance;
         	
         	if(distanceValue >= 1000) {
-        		distance += precision.format(distanceValue/1000) + " km";
+        		distance += precision.format(distanceValue/1000);
         	}
         	else {
-        		distance += precision.format(distanceValue) + " m";
+        		distance += precision.format(distanceValue);
         	}
         	
         	lastLocation = location;
@@ -98,16 +98,33 @@ public class Gps {
         return distance;
     }
 	
+	
+	public String showDistanceUnit() {
+        String distanceUnit = "";
+        float distanceValue;
+       
+        distanceValue = totalDistance;
+        	
+        if(distanceValue >= 1000) {
+        	distanceUnit = "km/h";
+        }
+        else {
+        	distanceUnit += "m";
+        }          
+        
+        return distanceUnit;
+    }
+	
 	public String showElevation() {
-        String elevation = "Elevation: ";
+        String elevation = "";
         double elevationValue;
         
         if(savedLocation == null || this.location == null) {
-        	elevation += "0 AMSL";
+        	elevation += "0";
         }
         else {
         	elevationValue = this.location.getAltitude();
-            elevation += precision.format(elevationValue) + " AMSL";
+            elevation += precision.format(elevationValue);
         }            
         
         return elevation;
