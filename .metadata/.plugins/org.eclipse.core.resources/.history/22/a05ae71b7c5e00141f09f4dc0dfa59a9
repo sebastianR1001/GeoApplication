@@ -1,0 +1,14 @@
+package geo.geoapplication;
+
+public class StaticData {
+
+	private static String time = "";
+	
+	public static String getTime() {
+    	return time;
+    }
+	
+	public static void setTime(String newTime) {
+		time = newTime;
+	}
+}

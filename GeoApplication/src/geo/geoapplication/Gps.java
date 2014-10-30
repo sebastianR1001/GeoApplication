@@ -20,8 +20,6 @@ public class Gps {
 	public Location location;
 	private Location lastLocation;
 	
-	public float totalDistance = 0;
-	
 	private java.text.DecimalFormat precision =new java.text.DecimalFormat(); 
 	
 	public Location savedLocation = null;
@@ -61,7 +59,7 @@ public class Gps {
         Double speedValue; 
                 
         if(savedLocation == null || this.location == null) {
-        	speed += "0 km/h";
+        	speed += "0";
         }
         else {
         	speedValue = this.location.getSpeed()*3.6;
@@ -82,8 +80,8 @@ public class Gps {
         	if(lastLocation == null) {
         		lastLocation = savedLocation;
         	}
-        	totalDistance += lastLocation.distanceTo(this.location);
-        	distanceValue = totalDistance;
+        	GeoService.StaticData.totalDistance += lastLocation.distanceTo(this.location);
+        	distanceValue = GeoService.StaticData.totalDistance;
         	
         	if(distanceValue >= 1000) {
         		distance += precision.format(distanceValue/1000);
@@ -103,10 +101,10 @@ public class Gps {
         String distanceUnit = "";
         float distanceValue;
        
-        distanceValue = totalDistance;
+        distanceValue = GeoService.StaticData.totalDistance;
         	
         if(distanceValue >= 1000) {
-        	distanceUnit = "km/h";
+        	distanceUnit = "km";
         }
         else {
         	distanceUnit += "m";

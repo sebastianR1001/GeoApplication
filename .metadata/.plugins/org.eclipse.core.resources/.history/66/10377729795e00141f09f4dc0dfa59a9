@@ -1,0 +1,6 @@
+package geo.geoapplication;
+
+public class StaticData {
+
+	private static String time = "";
+}
