@@ -4,23 +4,18 @@ import geo.geoapplication.util.SystemUiHider;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.app.AlertDialog;
 
 
 
@@ -60,8 +55,6 @@ public class FullscreenActivity extends Activity {
     private SystemUiHider mSystemUiHider;
     
     private View advancedLinear;
-    private  Animation advancedShow;
-    private  Animation advancedHide;
     
     private TextView gpsInformation;
     private TextView viewLocation;
@@ -81,12 +74,13 @@ public class FullscreenActivity extends Activity {
     private Button loginButton;
     private Button newAccountButton;
     
-    private LocationManager locationManager;
+   /* private LocationManager locationManager;
     private Location location;
     private Gps gps;
-    
+    */
     private Handler customHandler = new Handler();
-    private boolean advancedLinearIsHide = false;
+    private static AlertDialog.Builder alertDialog;
+       
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +107,7 @@ public class FullscreenActivity extends Activity {
         
         startButton = (Button) findViewById(R.id.startButton);
         resetButton = (Button) findViewById(R.id.resetButton);
-                
-        advancedHide = AnimationUtils.loadAnimation(this, R.anim.abc_slide_out_bottom);
-        advancedShow = AnimationUtils.loadAnimation(this, R.anim.abc_slide_in_bottom);
-        
-        GpsInit();  //initialize gps
-        
+
         //if show activity:
         if(GeoService.StaticData.timeStarted) {
         	customHandler.postDelayed(updateTimerThread, 0);
@@ -128,36 +117,32 @@ public class FullscreenActivity extends Activity {
         	customHandler.postDelayed(updateTimerThread, 0);
         	startButton.setText("START");
         }
-        
-     /*   if(GeoService.StaticData.advancedLinearIsHide) {
-        	AdvancedLinearHide(contentView.getHeight()-50);
-    	}*/
-        ///////////////
-                
+                        
         //timer
         startButton.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View view) {
 	        	if(GeoService.StaticData.timeStarted) {
 	        		GeoService.StaticData.timeStarted = false;
 	        		GeoService.StaticData.timeStoped = true;
-		        	gps.savedLocation = null;
+		        	GeoService.gps.savedLocation = null;
 		        	customHandler.removeCallbacks(updateTimerThread);
 		        	startButton.setText("START");
-		        //	stopMyService();
+		        	GeoService.startDelay = SystemClock.uptimeMillis();
 	        	}
 	        	else {
 	        		if(GeoService.StaticData.timeStoped == true) {
 		        		GeoService.StaticData.timeStoped = false;
-		        		GeoService.startTime = SystemClock.uptimeMillis();
+		        		GeoService.StaticData.timeStarted = true;
+		        		GeoService.ignoredTime += GeoService.delayInMilliseconds;
 	        		}
 	        		else {
-	        			startMyService();
+	        			GeoService.StaticData.timeStoped = false;
+		        		GeoService.StaticData.timeStarted = true;
+		        		GeoService.startTime = SystemClock.uptimeMillis();
 	        		}
 	        		customHandler.postDelayed(updateTimerThread, 0);
-	        		GeoService.StaticData.timeStarted = true;
-		        	startButton.setText("STOP");
+	        		startButton.setText("STOP");
 	        	}
-	        	
 	        }
         });
         
@@ -166,26 +151,30 @@ public class FullscreenActivity extends Activity {
 	        public void onClick(View view) {
 	        	GeoService.StaticData.timeStarted = false;
 	        	GeoService.StaticData.timeStoped = false;
-	        	customHandler.removeCallbacks(updateTimerThread);
-
+	        //	customHandler.removeCallbacks(updateTimerThread);
+	        	GeoService.StaticData.setTime("0:00:00");
 	        	GeoService.StaticData.totalDistance = 0;
-	            stopMyService();
-	            speed.setText("0");
-	            distance.setText("0");
-	            time.setText("00:00:00");
-	            startButton.setText("START");
+	        	GeoService.StaticData.setSpeed("0");
+	        	GeoService.StaticData.setDistance("0");
+	        	time.setText("0:00:00");
+		    	speed.setText("0");
+		    	distance.setText("0");
+		    	GeoService.startDelay = 0L;
+		    	GeoService.ignoredTime = 0L;
+		    	//startButton.setBackgroundResource(R.drawable.start);
+		    	startButton.setText("START");
 	        }
         });
         
         advancedLinear.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View view) {
-	        	if(advancedLinearIsHide) {
+	        	if(GeoService.StaticData.advancedLinearIsHide) {
 	        		AdvancedLinearShow(contentView.getHeight()-320);
-	        		advancedLinearIsHide = false;
+	        		GeoService.StaticData.advancedLinearIsHide = false;
 	        	}
 	        	else {
 	        		AdvancedLinearHide(contentView.getHeight()-50);
-	        		advancedLinearIsHide = true;
+	        		GeoService.StaticData.advancedLinearIsHide = true;
 	        	}
 	        }
         });
@@ -227,11 +216,6 @@ public class FullscreenActivity extends Activity {
                             // controls.
                             controlsView.setVisibility(visible ? View.VISIBLE : View.GONE);
                         }
-
-                        if (visible && AUTO_HIDE) {
-                            // Schedule a hide().
-                            delayedHide(AUTO_HIDE_DELAY_MILLIS);
-                        }
                     }
                 });
 
@@ -261,6 +245,7 @@ public class FullscreenActivity extends Activity {
 	        loginButton.setOnClickListener(new View.OnClickListener() {
 		        public void onClick(View view) {
 		        	if(user.getText() != null && password.getText() != null) {
+		        		startMyService();
 		        		GeoService.StaticData.logged = true;
 		        		onCreate(finalSavedInstanceState);
 		        	}
@@ -271,7 +256,6 @@ public class FullscreenActivity extends Activity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        /*findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);*/
     }
 
     @Override
@@ -318,111 +302,36 @@ public class FullscreenActivity extends Activity {
     }
     
     
-    private LocationListener locationListener = new LocationListener() {
-        @Override
-        public void onStatusChanged(String arg0, int arg1, Bundle arg2) { 
-            
-        }
-        
-        @Override
-        public void onProviderEnabled(String arg0) {
-            
-        }
-        
-        @Override
-        public void onProviderDisabled(String arg0) {
-            
-        }
-        
-        @Override
-        public void onLocationChanged(Location location) {
-        	speed.setText(gps.showSpeed());
-        	if(GeoService.StaticData.timeStarted) {
-        		distance.setText(gps.showDistance());
-        	}
-        	distanceUnit.setText(gps.showDistanceUnit());
-        	altitude.setText(gps.showElevation());
-        	
-        	gps.location = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        	        	
-            if(gps.savedLocation == null)
-                gps.savedLocation = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        
-            new WaitingForStop().execute();
-        }
-    };
-    
-    
-    
+
     @Override
     protected void onStart() {
         super.onStart();
-        gps.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 
-                                               3000, 
-                                               2, 
-                                               locationListener);
+        CreateAlert();
     }
     
     
     @Override
     protected void onStop() {
-        gps.locationManager.removeUpdates(locationListener);
         super.onStop();
+        
     }
     
-    private class WaitingForStop extends AsyncTask<Void, Void, Void> {
-    	
-    	private Location lastLocation;
-    	
-    	@Override
-    	protected void onPreExecute() {
-    		lastLocation = gps.location;
-    	}
-    	
-    	@Override
-    	protected Void doInBackground(Void... params) {
-            try {
-            	Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		return null;
-    	}
-    	
-    	@Override
-    	protected void onPostExecute(Void result) {
-    		if(lastLocation == gps.location) {
-				speed.setText("0");
-			}
-    	}
+    @Override
+    public void onBackPressed() {
+    	alertDialog.show();
     }
     
     
     private Runnable updateTimerThread = new Runnable() {
 	    	public void run() {
 		    	time.setText(GeoService.StaticData.getTime());
+		    	speed.setText(GeoService.StaticData.getSpeed());
+		    	distance.setText(GeoService.StaticData.getDistance());
+		    	altitude.setText(GeoService.StaticData.getAltitude());
 		    	customHandler.postDelayed(this, 0);
 	    	}
     };
     
-    
-    private void GpsInit() {
-		////////////////////////////////////////////////////////////////////////////
-		///////////////////////////////////////////////////////////////////////////
-		//writing gps information
-		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);      
-		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		
-		gps = new Gps(locationManager, location);
-		
-		gpsInformation.setText(gps.getGpsStatus());
-		
-		viewLocation.setText(gps.showLocation());
-		
-		//start waiting for stop
-		new WaitingForStop().execute();
-    }
     
     
     private void startMyService() {
@@ -437,18 +346,34 @@ public class FullscreenActivity extends Activity {
     
     
     private void AdvancedLinearHide(int height) {
-    	advancedLinear.setTop(height);
-		advancedLinear.startAnimation(advancedHide);
+		advancedLinear.setTop(height);
     }
     
     private void AdvancedLinearShow(int height) {
 		advancedLinear.setTop(height);
-		advancedLinear.startAnimation(advancedShow);
-		advancedLinearIsHide = false;
-		gpsInformation.setText(gps.getGpsStatus());
-		viewLocation.setText(gps.showLocation());
-		accuracy.setText(gps.showAccuracy());
-    	lastFix.setText(gps.showLastFix());
+
+		gpsInformation.setText(GeoService.StaticData.getGpsInformation());
+		viewLocation.setText(GeoService.StaticData.getLocation());
+		accuracy.setText(GeoService.StaticData.getAccuracy());
+    	lastFix.setText(GeoService.StaticData.getLastFix());
+    }
+    
+    private void CreateAlert() {
+    	alertDialog = new AlertDialog.Builder(this);
+        
+        alertDialog.setTitle("Close Application");
+        alertDialog.setMessage("Do you want to hide applications?");
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) {
+	        	finish();
+	        }
+        });
+        alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) {
+	        	stopMyService();
+	        	finish();
+	        }
+        });
     }
     
 }

@@ -249,9 +249,10 @@ int drawable abc_textfield_searchview_holo_dark 0x7f020053
 int drawable abc_textfield_searchview_holo_light 0x7f020054
 int drawable abc_textfield_searchview_right_holo_dark 0x7f020055
 int drawable abc_textfield_searchview_right_holo_light 0x7f020056
-int drawable advanced 0x7f020057
-int drawable ic_launcher 0x7f020058
-int drawable my_panel 0x7f020059
+int drawable ic_launcher 0x7f020057
+int drawable start 0x7f020058
+int drawable stop 0x7f020059
+int drawable tlo 0x7f02005a
 int id accuracy 0x7f050066
 int id action_bar 0x7f05002d
 int id action_bar_activity_content 0x7f050026

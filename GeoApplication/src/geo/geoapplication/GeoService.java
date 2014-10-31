@@ -1,11 +1,16 @@
 package geo.geoapplication;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.util.Log;
 import android.widget.Toast;
 
 public class GeoService extends Service {
@@ -13,7 +18,7 @@ public class GeoService extends Service {
 	public static class StaticData {
 
 		public static boolean logged = false;
-		//public static boolean advancedLinearIsHide = false;
+		public static boolean advancedLinearIsHide = false;
 		
 		public static float totalDistance = 0;
 		
@@ -21,6 +26,12 @@ public class GeoService extends Service {
 		public static boolean timeStoped = false;
 		
 		private static String time = "";
+		private static String speed = "0";
+		private static String gpsInformation = "";
+		private static String location = "";
+		private static String distance = "0";
+		private static String distanceUnit = "m";
+		private static String altitude = "0";
 		
 		public static String getTime() {
 	    	return time;
@@ -29,11 +40,75 @@ public class GeoService extends Service {
 		public static void setTime(String newTime) {
 			time = newTime;
 		}
+		
+		public static String getSpeed() {
+			return speed;
+		}
+		
+		public static void setSpeed(String newSpeed) {
+			speed = newSpeed;
+		}
+		
+		public static String getGpsInformation() {
+			return gpsInformation;
+		}
+		
+		public static void setGpsInformation(String newGpsInformation) {
+			gpsInformation = newGpsInformation;
+		}
+		
+		public static String getLocation() {
+			return location;
+		}
+		
+		public static void setLocation(String newLocation) {
+			location = newLocation;
+		}
+		
+		public static String getDistance() {
+			return distance;
+		}
+		
+		public static void setDistance(String newDistance) {
+			distance = newDistance;
+		}
+		
+		public static String getDistanceUnit() {
+			return distanceUnit;
+		}
+		
+		public static void setDistanceUnit(String newDistanceUnit) {
+			distanceUnit = newDistanceUnit;
+		}
+		
+		public static String getAltitude() {
+			return altitude;
+		}
+		
+		public static void setAltitude(String newAltitude) {
+			altitude = newAltitude;
+		}
+		
+		public static String getAccuracy() {
+			return gps.showAccuracy();
+		}
+		
+		public static String getLastFix() {
+			return gps.showLastFix();
+		}
 	}
 	
+	public static Gps gps;
+	
+	private LocationManager locationManager;
+    private Location location;
+    private Handler customHandler = new Handler();
+    
 	private Toast toast;
 	public static long startTime = 0L;
-    private Handler customHandler = new Handler();
+	public static long ignoredTime = 0L;
+	public static long startDelay = 0L;
+    public static long delayInMilliseconds = 0L;
     
     long timeInMilliseconds = 0L;
     long timeSwapBuff = 0L;
@@ -49,31 +124,115 @@ public class GeoService extends Service {
     		showToast(StaticData.getTime());
     		if(StaticData.timeStarted) {
 		    	timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
-		    	updatedTime = timeSwapBuff + timeInMilliseconds;
+		    	updatedTime = timeSwapBuff + timeInMilliseconds - ignoredTime;
 		    	int secs = (int) (updatedTime / 1000);
 		    	int mins = secs / 60;
+		    	int hours = mins / 60;
 		    	secs = secs % 60;
-		    	int milliseconds = (int) (updatedTime % 100);
-		    	StaticData.setTime("" + "" + mins + ":"
-		    	+ String.format("%02d", secs) + ":"
-		    	+ String.format("%02d", milliseconds));
-		    	customHandler.postDelayed(this, 0);
+		    	mins = mins % 60;
+		    	
+		    	StaticData.setTime("" + "" + hours + ":"
+		    	+ String.format("%02d", mins) + ":"
+		    	+ String.format("%02d", secs));
+    		}
+    		else if(!StaticData.timeStoped){
+    			showToast("0:00:00");
     		}
     		else {
-
+    			delayInMilliseconds = SystemClock.uptimeMillis() - startDelay;
     		}
     		customHandler.postDelayed(this, 0);
     	}
 	};
 	
-    private void writeToLogs(String message) {
-        Log.d("HelloServices", message);
+	private LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onStatusChanged(String arg0, int arg1, Bundle arg2) { 
+            
+        }
+        
+        @Override
+        public void onProviderEnabled(String arg0) {
+            
+        }
+        
+        @Override
+        public void onProviderDisabled(String arg0) {
+            
+        }
+        
+        @Override
+        public void onLocationChanged(Location location) {
+        	StaticData.setSpeed(gps.showSpeed());
+        	if(GeoService.StaticData.timeStarted) {
+        		StaticData.setDistance(gps.showDistance());
+        	}
+        	StaticData.setDistanceUnit(gps.showDistanceUnit());
+        	StaticData.setAltitude(gps.showElevation());
+        	
+        	gps.location = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        	        	
+            if(gps.savedLocation == null)
+                gps.savedLocation = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        
+            new WaitingForStop().execute();
+        }
+    };
+    
+    private void GpsInit() {
+		////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////
+		//writing gps information
+		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);      
+		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		
+		gps = new Gps(locationManager, location);
+
+		StaticData.setGpsInformation(gps.getGpsStatus());
+		
+		StaticData.setLocation(gps.showLocation());
+		
+		//start waiting for stop
+     	new WaitingForStop().execute();
     }
- 
+    
+    private class WaitingForStop extends AsyncTask<Void, Void, Void> {
+    	
+    	private Location lastLocation;
+    	
+    	@Override
+    	protected void onPreExecute() {
+    		lastLocation = gps.location;
+    	}
+    	
+    	@Override
+    	protected Void doInBackground(Void... params) {
+            try {
+            	Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		return null;
+    	}
+    	
+    	@Override
+    	protected void onPostExecute(Void result) {
+    		if(lastLocation == gps.location) {
+				StaticData.setSpeed("0");
+			}
+    	}
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+        GpsInit();  //initialize gps
+        gps.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 
+                3000, 
+                2, 
+                locationListener);
     }
  
     @Override
@@ -89,6 +248,7 @@ public class GeoService extends Service {
     	showToast("0:00:00");
     	timeSwapBuff += timeInMilliseconds;
     	customHandler.removeCallbacks(updateTimerThread);
+    	gps.locationManager.removeUpdates(locationListener);
         super.onDestroy();
     }
 
