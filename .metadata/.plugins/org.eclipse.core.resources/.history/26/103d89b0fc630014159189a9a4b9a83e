@@ -1,0 +1,49 @@
+package geo.geoapplication;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class Login {
+	public Login(final String user, final String password) {
+		new Thread(new Runnable() {
+            public void run() {
+
+                try{
+                    URL url = new URL("http://10.0.2.2:8080/MyServletProject/DoubleMeServlet");
+                    URLConnection connection = url.openConnection();
+
+                    //inputString = URLEncoder.encode(inputString, "UTF-8");
+
+                    connection.setDoOutput(true);
+                    OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+                    out.write(user);
+                    out.close();
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                    String returnString="";
+                    String result = "";
+                   
+                    while ((returnString = in.readLine()) != null) 
+                    {
+                        result += returnString;
+                    }
+                    in.close();
+
+                    if(result == "true") {
+                    	GeoService.StaticData.logged = true;
+                    	GeoService.StaticData.user = user;
+                    }
+
+                }catch(Exception e)
+                {
+                     
+                }
+
+            }
+          }).start();
+	}
+}

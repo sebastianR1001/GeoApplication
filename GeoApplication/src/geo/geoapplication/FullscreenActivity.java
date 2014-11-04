@@ -74,6 +74,8 @@ public class FullscreenActivity extends Activity {
     private Button loginButton;
     private Button newAccountButton;
     
+    private int contentHeight;
+    
    /* private LocationManager locationManager;
     private Location location;
     private Gps gps;
@@ -117,7 +119,8 @@ public class FullscreenActivity extends Activity {
         	customHandler.postDelayed(updateTimerThread, 0);
         	startButton.setText("START");
         }
-                        
+        
+                               
         //timer
         startButton.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View view) {
@@ -169,14 +172,15 @@ public class FullscreenActivity extends Activity {
         advancedLinear.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View view) {
 	        	if(GeoService.StaticData.advancedLinearIsHide) {
-	        		AdvancedLinearShow(contentView.getHeight()-320);
+	        		AdvancedLinearShow(controlsView.getHeight() - 320);
 	        		GeoService.StaticData.advancedLinearIsHide = false;
 	        	}
 	        	else {
-	        		AdvancedLinearHide(contentView.getHeight()-50);
+	        		AdvancedLinearHide(controlsView.getHeight() - 50);
 	        		GeoService.StaticData.advancedLinearIsHide = true;
 	        	}
 	        }
+	        
         });
 
         ///////////////////////////////////////////////////////////////////////////
@@ -244,7 +248,9 @@ public class FullscreenActivity extends Activity {
 	        //login
 	        loginButton.setOnClickListener(new View.OnClickListener() {
 		        public void onClick(View view) {
-		        	if(user.getText() != null && password.getText() != null) {
+		        	new Login(user.getText().toString(), password.getText().toString());
+		        	
+		        	if(GeoService.StaticData.logged) {
 		        		startMyService();
 		        		GeoService.StaticData.logged = true;
 		        		onCreate(finalSavedInstanceState);
@@ -328,6 +334,7 @@ public class FullscreenActivity extends Activity {
 		    	speed.setText(GeoService.StaticData.getSpeed());
 		    	distance.setText(GeoService.StaticData.getDistance());
 		    	altitude.setText(GeoService.StaticData.getAltitude());
+		    	distanceUnit.setText(GeoService.StaticData.getDistanceUnit());
 		    	customHandler.postDelayed(this, 0);
 	    	}
     };
@@ -346,16 +353,26 @@ public class FullscreenActivity extends Activity {
     
     
     private void AdvancedLinearHide(int height) {
-		advancedLinear.setTop(height);
+    	advancedLinear.setTop(height);
     }
     
     private void AdvancedLinearShow(int height) {
+    	if(contentHeight == 0) contentHeight = advancedLinear.getBottom();
+		//advancedLinear.setBottom(contentHeight + height);
+		
+		int a = advancedLinear.getBottom();
+		int b = advancedLinear.getTop();
+		
+		//advancedLinear.setBottom(a - height);
 		advancedLinear.setTop(height);
-
+		
+    	
 		gpsInformation.setText(GeoService.StaticData.getGpsInformation());
 		viewLocation.setText(GeoService.StaticData.getLocation());
 		accuracy.setText(GeoService.StaticData.getAccuracy());
-    	lastFix.setText(GeoService.StaticData.getLastFix());
+    	lastFix.setText(GeoService.StaticData.user);
+    	int i = a;
+    	int j = b;
     }
     
     private void CreateAlert() {
@@ -370,6 +387,10 @@ public class FullscreenActivity extends Activity {
         });
         alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
+	        	GeoService.StaticData.logged = false;
+	        	GeoService.StaticData.totalDistance = 0;
+	        	GeoService.StaticData.setTime("0:00:00");
+	        	GeoService.delayInMilliseconds = 0L;
 	        	stopMyService();
 	        	finish();
 	        }

@@ -1,5 +1,8 @@
 package geo.geoapplication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -18,14 +21,18 @@ public class GeoService extends Service {
 	public static class StaticData {
 
 		public static boolean logged = false;
+		public static String user = "";
+		public static String verificationCode = "";
 		public static boolean advancedLinearIsHide = false;
+		
+		public static List<String> points = new ArrayList<String>();
 		
 		public static float totalDistance = 0;
 		
 		public static boolean timeStarted = false;
 		public static boolean timeStoped = false;
 		
-		private static String time = "";
+		private static String time = "0:00:00";
 		private static String speed = "0";
 		private static String gpsInformation = "";
 		private static String location = "";
@@ -174,6 +181,8 @@ public class GeoService extends Service {
         	        	
             if(gps.savedLocation == null)
                 gps.savedLocation = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            
+            StaticData.points.add(SendGpsInformation.getGpsMessage());
         
             new WaitingForStop().execute();
         }
@@ -187,6 +196,8 @@ public class GeoService extends Service {
 		location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		
 		gps = new Gps(locationManager, location);
+		
+	//	new SendGpsInformation();
 
 		StaticData.setGpsInformation(gps.getGpsStatus());
 		
