@@ -65,6 +65,7 @@ public class FullscreenActivity extends Activity {
     private TextView altitude;
     private TextView accuracy;
     private TextView lastFix;
+    private TextView userName;
     
     private EditText user;
     private EditText password;
@@ -105,6 +106,7 @@ public class FullscreenActivity extends Activity {
         altitude = (TextView)findViewById(R.id.altitude);
         accuracy = (TextView)findViewById(R.id.accuracy);
         lastFix = (TextView)findViewById(R.id.lastFix);
+        userName = (TextView)findViewById(R.id.userName);
         time = (TextView)findViewById(R.id.time);
         
         startButton = (Button) findViewById(R.id.startButton);
@@ -172,11 +174,11 @@ public class FullscreenActivity extends Activity {
         advancedLinear.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View view) {
 	        	if(GeoService.StaticData.advancedLinearIsHide) {
-	        		AdvancedLinearShow(controlsView.getHeight() - 320);
+	        		AdvancedLinearShow(contentView.getHeight() - 320);
 	        		GeoService.StaticData.advancedLinearIsHide = false;
 	        	}
 	        	else {
-	        		AdvancedLinearHide(controlsView.getHeight() - 50);
+	        		AdvancedLinearHide(contentView.getHeight() - 50);
 	        		GeoService.StaticData.advancedLinearIsHide = true;
 	        	}
 	        }
@@ -246,17 +248,17 @@ public class FullscreenActivity extends Activity {
 	        newAccountButton = (Button) findViewById(R.id.newAccountButton);
 	        
 	        //login
-	        loginButton.setOnClickListener(new View.OnClickListener() {
-		        public void onClick(View view) {
-		        	new Login(user.getText().toString(), password.getText().toString());
+	     //   loginButton.setOnClickListener(new View.OnClickListener() {
+		  //      public void onClick(View view) {
+		  //      	new Login(user.getText().toString(), password.getText().toString());
 		        	
-		        	if(GeoService.StaticData.logged) {
+		        //	if(GeoService.StaticData.logged) {
 		        		startMyService();
 		        		GeoService.StaticData.logged = true;
 		        		onCreate(finalSavedInstanceState);
-		        	}
-		        }
-	        });
+		       // 	}
+		  //      }
+	      //  });
         }
 
         // Upon interacting with UI controls, delay any scheduled hide()
@@ -357,22 +359,13 @@ public class FullscreenActivity extends Activity {
     }
     
     private void AdvancedLinearShow(int height) {
-    	if(contentHeight == 0) contentHeight = advancedLinear.getBottom();
-		//advancedLinear.setBottom(contentHeight + height);
-		
-		int a = advancedLinear.getBottom();
-		int b = advancedLinear.getTop();
-		
-		//advancedLinear.setBottom(a - height);
 		advancedLinear.setTop(height);
 		
-    	
 		gpsInformation.setText(GeoService.StaticData.getGpsInformation());
 		viewLocation.setText(GeoService.StaticData.getLocation());
 		accuracy.setText(GeoService.StaticData.getAccuracy());
-    	lastFix.setText(GeoService.StaticData.user);
-    	int i = a;
-    	int j = b;
+    	lastFix.setText(GeoService.StaticData.getLastFix());
+    	userName.setText(GeoService.StaticData.user);
     }
     
     private void CreateAlert() {

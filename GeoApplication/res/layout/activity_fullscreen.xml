@@ -255,9 +255,9 @@
 	        style="?metaButtonBarStyle"
 	        android:layout_width="match_parent"
 	       
-	        android:layout_height="210dp"
+	        android:layout_height="220dp"
 	        android:layout_gravity="bottom|center_horizontal"
-	        android:background="@color/black_overlay"
+	        android:background="@color/dark_green"
 	        android:orientation="vertical"
 	        tools:ignore="UselessParent" >
 	     
@@ -276,6 +276,7 @@
 		        android:id="@+id/gpsInformation"
 		        android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/gpsState"
 		        android:paddingTop="10dp"
 		        android:paddingLeft="5dp"
 		        android:textColor="#ffffff"
@@ -311,6 +312,17 @@
 		        android:paddingLeft="5dp"
 		        android:text="@string/last_fix"
 		        android:id="@+id/lastFix"
+		        android:textColor="#ffffff"
+		        android:textSize="20sp"
+		        android:textStyle="bold" />
+	        
+	        <TextView
+		        android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+		        android:paddingTop="10dp"
+		        android:paddingLeft="5dp"
+		        android:text="@string/userName"
+		        android:id="@+id/userName"
 		        android:textColor="#ffffff"
 		        android:textSize="20sp"
 		        android:textStyle="bold" />

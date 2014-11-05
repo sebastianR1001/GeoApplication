@@ -1066,12 +1066,14 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f070002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f080005;
+        public static final int abc_search_url_text_holo=0x7f080007;
         public static final int abc_search_url_text_normal=0x7f080000;
         public static final int abc_search_url_text_pressed=0x7f080002;
         public static final int abc_search_url_text_selected=0x7f080001;
+        public static final int black=0x7f080004;
         public static final int black_overlay=0x7f080003;
-        public static final int white_overlay=0x7f080004;
+        public static final int dark_green=0x7f080005;
+        public static final int white_overlay=0x7f080006;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1335,7 +1337,7 @@ containing a value of this type.
         public static final int fill_horizontal=0x7f05000b;
         public static final int fill_vertical=0x7f050009;
         public static final int fullscreen_content=0x7f05004d;
-        public static final int fullscreen_content_controls=0x7f050068;
+        public static final int fullscreen_content_controls=0x7f050069;
         public static final int gpsInformation=0x7f050064;
         public static final int home=0x7f050025;
         public static final int homeAsUp=0x7f050017;
@@ -1347,15 +1349,15 @@ containing a value of this type.
         public static final int left=0x7f050006;
         public static final int listMode=0x7f050013;
         public static final int list_item=0x7f05003a;
-        public static final int loginButton=0x7f050071;
+        public static final int loginButton=0x7f050072;
         public static final int middle=0x7f050024;
         public static final int never=0x7f05001b;
-        public static final int newAccountButton=0x7f050072;
+        public static final int newAccountButton=0x7f050073;
         public static final int none=0x7f050022;
         public static final int normal=0x7f050012;
-        public static final int passwordLayout=0x7f05006d;
-        public static final int passwordText=0x7f05006e;
-        public static final int passwordValue=0x7f05006f;
+        public static final int passwordLayout=0x7f05006e;
+        public static final int passwordText=0x7f05006f;
+        public static final int passwordValue=0x7f050070;
         public static final int progress_circular=0x7f050029;
         public static final int progress_horizontal=0x7f05002a;
         public static final int radio=0x7f050040;
@@ -1386,8 +1388,8 @@ containing a value of this type.
         public static final int tabMode=0x7f050014;
         public static final int tableRow0=0x7f05004e;
         public static final int tableRow1=0x7f050051;
-        public static final int tableRow2=0x7f05006c;
-        public static final int tableRow3=0x7f050070;
+        public static final int tableRow2=0x7f05006d;
+        public static final int tableRow3=0x7f050071;
         public static final int tableRow4=0x7f050059;
         public static final int time=0x7f050054;
         public static final int timeLayout=0x7f050052;
@@ -1397,9 +1399,10 @@ containing a value of this type.
         public static final int top_action_bar=0x7f050031;
         public static final int up=0x7f050032;
         public static final int useLogo=0x7f050015;
-        public static final int userLayout=0x7f050069;
-        public static final int userText=0x7f05006a;
-        public static final int userValue=0x7f05006b;
+        public static final int userLayout=0x7f05006a;
+        public static final int userName=0x7f050068;
+        public static final int userText=0x7f05006b;
+        public static final int userValue=0x7f05006c;
         public static final int vertical=0x7f050001;
         public static final int viewLocation=0x7f050065;
         public static final int withText=0x7f05001e;
@@ -1499,32 +1502,34 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
-        public static final int accuracy=0x7f0a0017;
-        public static final int advancedText=0x7f0a0026;
-        public static final int altitude=0x7f0a001b;
-        public static final int altitudeText=0x7f0a001d;
-        public static final int altitudeUnit=0x7f0a001c;
+        public static final int accuracy=0x7f0a0018;
+        public static final int advancedText=0x7f0a0028;
+        public static final int altitude=0x7f0a001c;
+        public static final int altitudeText=0x7f0a001e;
+        public static final int altitudeUnit=0x7f0a001d;
         public static final int app_name=0x7f0a000d;
-        public static final int distance=0x7f0a0018;
-        public static final int distanceText=0x7f0a001a;
-        public static final int distanceUnit=0x7f0a0019;
+        public static final int distance=0x7f0a0019;
+        public static final int distanceText=0x7f0a001b;
+        public static final int distanceUnit=0x7f0a001a;
         public static final int dummy_button=0x7f0a000e;
         public static final int dummy_content=0x7f0a000f;
         public static final int geo_application=0x7f0a0010;
-        public static final int last_fix=0x7f0a001e;
+        public static final int gpsState=0x7f0a0012;
+        public static final int last_fix=0x7f0a001f;
         public static final int location=0x7f0a0011;
-        public static final int loginButton=0x7f0a0024;
-        public static final int newAccountButton=0x7f0a0025;
-        public static final int passwordText=0x7f0a0020;
-        public static final int resetButton=0x7f0a0023;
-        public static final int speed=0x7f0a0013;
-        public static final int speedText=0x7f0a0012;
-        public static final int speedUnit=0x7f0a0014;
-        public static final int startButton=0x7f0a0021;
-        public static final int stopButton=0x7f0a0022;
-        public static final int time=0x7f0a0015;
-        public static final int timeText=0x7f0a0016;
-        public static final int userText=0x7f0a001f;
+        public static final int loginButton=0x7f0a0026;
+        public static final int newAccountButton=0x7f0a0027;
+        public static final int passwordText=0x7f0a0021;
+        public static final int resetButton=0x7f0a0025;
+        public static final int speed=0x7f0a0014;
+        public static final int speedText=0x7f0a0013;
+        public static final int speedUnit=0x7f0a0015;
+        public static final int startButton=0x7f0a0023;
+        public static final int stopButton=0x7f0a0024;
+        public static final int time=0x7f0a0016;
+        public static final int timeText=0x7f0a0017;
+        public static final int userName=0x7f0a0022;
+        public static final int userText=0x7f0a0020;
     }
     public static final class style {
         /** 

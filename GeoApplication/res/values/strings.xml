@@ -6,7 +6,8 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="geo_application">GEO\nAPPLICATION</string>
     
-    <string name="location">Location: ---</string>
+    <string name="location">Location: </string>
+    <string name="gpsState">GPS Disabled. Please, turn it on</string>
     
     <string name="speedText">Speed</string>
     <string name="speed">0</string>
@@ -30,6 +31,8 @@
     <string name="userText">USER</string>
     <string name="passwordText">PASSWORD</string>
     
+    <string name="userName">user: </string>
+    
     <string name="startButton">START</string>
     <string name="stopButton">STOP</string>
     <string name="resetButton">RESET</string>
@@ -37,5 +40,6 @@
     <string name="newAccountButton">REGISTRATION</string>
     
     <string name="advancedText">ADVANCED</string>
+    
 
 </resources>
