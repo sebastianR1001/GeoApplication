@@ -48,6 +48,8 @@ public class FullscreenActivity extends Activity {
      * The flags to pass to {@link SystemUiHider#getInstance}.
      */
     private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
+    
+    private static final boolean loginIsRequired = true;
 
     /**
      * The instance of the {@link SystemUiHider} for this activity.
@@ -66,6 +68,8 @@ public class FullscreenActivity extends Activity {
     private TextView accuracy;
     private TextView lastFix;
     private TextView userName;
+    
+    private TextView errorMessage;
     
     private EditText user;
     private EditText password;
@@ -174,7 +178,7 @@ public class FullscreenActivity extends Activity {
         advancedLinear.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View view) {
 	        	if(GeoService.StaticData.advancedLinearIsHide) {
-	        		AdvancedLinearShow(contentView.getHeight() - 320);
+	        		AdvancedLinearShow(contentView.getHeight() - 400);
 	        		GeoService.StaticData.advancedLinearIsHide = false;
 	        	}
 	        	else {
@@ -244,21 +248,45 @@ public class FullscreenActivity extends Activity {
 	        user = (EditText) findViewById(R.id.userValue);
 	        password = (EditText) findViewById(R.id.passwordValue);
 	        
+	        errorMessage = (TextView)findViewById(R.id.message);
+	        
 	        loginButton = (Button) findViewById(R.id.loginButton);
 	        newAccountButton = (Button) findViewById(R.id.newAccountButton);
 	        
 	        //login
-	     //   loginButton.setOnClickListener(new View.OnClickListener() {
-		  //      public void onClick(View view) {
-		  //      	new Login(user.getText().toString(), password.getText().toString());
+	        loginButton.setOnClickListener(new View.OnClickListener() {
+		        public void onClick(View view) {
 		        	
-		        //	if(GeoService.StaticData.logged) {
-		        		startMyService();
+		        	if(loginIsRequired) {
+			        	new Login(user.getText().toString(), password.getText().toString());
+			        	
+			        	int tryingCount = 0;
+			        	startMyService();
+			        	while(GeoService.StaticData.user.equals("") && tryingCount < 100) {
+			        		try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+			        		tryingCount++;
+			        	}
+		        	}
+		        	
+		        	if(GeoService.StaticData.user.equals("login error")) {
+		        		errorMessage.setText("bledny login lub haslo");
+		        	}
+		        	else if(GeoService.StaticData.user.equals("")) {
+		        		errorMessage.setText("brak polaczenia z serwerem!!");
+		        	}
+		        	
+		        	if(GeoService.StaticData.logged || !loginIsRequired) {
+		        	//	startMyService();
 		        		GeoService.StaticData.logged = true;
 		        		onCreate(finalSavedInstanceState);
-		       // 	}
-		  //      }
-	      //  });
+		        	}
+		        }
+	        });
         }
 
         // Upon interacting with UI controls, delay any scheduled hide()
@@ -381,6 +409,7 @@ public class FullscreenActivity extends Activity {
         alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) {
 	        	GeoService.StaticData.logged = false;
+	        	GeoService.StaticData.user = "";
 	        	GeoService.StaticData.totalDistance = 0;
 	        	GeoService.StaticData.setTime("0:00:00");
 	        	GeoService.delayInMilliseconds = 0L;

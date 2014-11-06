@@ -16,13 +16,14 @@ public class Login {
 
                 try{
                 	String md5Password = getMd5Hash(password);
-                    URL url = new URL("http://192.168.1.6:8080/gis_server/LoginFromAndroid");
+                    URL url = new URL("http://192.168.43.125:8080/gis_server/LoginFromAndroid");
                     URLConnection connection = url.openConnection();
-
+                    
                     //inputString = URLEncoder.encode(inputString, "UTF-8");
 
                     connection.setDoOutput(true);
                     OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+                    
                     out.write(user+"|"+md5Password);
                     out.close();
 
@@ -47,10 +48,14 @@ public class Login {
                     	
                     	GeoService.StaticData.verificationCode = verifyCode;
                     }
+                    
+                    else {
+                    	GeoService.StaticData.user = "login error";
+                    }
 
                 }catch(Exception e)
                 {
-                     
+                	GeoService.StaticData.user = "login error";
                 }
 
             }

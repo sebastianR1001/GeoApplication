@@ -26,6 +26,8 @@
     <string name="altitudeUnit">AMSL</string>
     <string name="altitudeText">Altitude</string>
     
+    <string name="none"></string>
+    
     <string name="last_fix">Last fix:</string>
     
     <string name="userText">USER</string>

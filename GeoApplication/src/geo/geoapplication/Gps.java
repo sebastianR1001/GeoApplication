@@ -38,8 +38,8 @@ public class Gps {
 	}
 	
 	public String showLocation() {
-        String latitude  = "Latitude: ";
-        String longitude = "Longitude: ";
+        String latitude  = "";
+        String longitude = "";
         if(this.location == null) {
             latitude  += "...";
             longitude += "...";
@@ -48,7 +48,7 @@ public class Gps {
             longitude += this.location.getLongitude();
         }
         
-        return latitude + "\n" + longitude;
+        return latitude + ";" + longitude;
     }
    
 	
