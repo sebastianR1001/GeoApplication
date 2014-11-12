@@ -39,7 +39,7 @@
     <string name="stopButton">STOP</string>
     <string name="resetButton">RESET</string>
     <string name="loginButton">LOGIN</string>
-    <string name="newAccountButton">REGISTRATION</string>
+    <string name="offlineMode">OFFLINE MODE</string>
     
     <string name="advancedText">ADVANCED</string>
     

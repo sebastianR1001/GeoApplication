@@ -255,7 +255,7 @@
 	        style="?metaButtonBarStyle"
 	        android:layout_width="match_parent"
 	       
-	        android:layout_height="220dp"
+	        android:layout_height="240dp"
 	        android:layout_gravity="bottom|center_horizontal"
 	        android:background="@color/dark_green"
 	        android:orientation="vertical"

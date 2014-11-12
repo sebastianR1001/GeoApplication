@@ -1066,14 +1066,15 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f070002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f080007;
+        public static final int abc_search_url_text_holo=0x7f080008;
         public static final int abc_search_url_text_normal=0x7f080000;
         public static final int abc_search_url_text_pressed=0x7f080002;
         public static final int abc_search_url_text_selected=0x7f080001;
         public static final int black=0x7f080004;
         public static final int black_overlay=0x7f080003;
-        public static final int dark_green=0x7f080005;
-        public static final int white_overlay=0x7f080006;
+        public static final int dark_green=0x7f080006;
+        public static final int red=0x7f080005;
+        public static final int white_overlay=0x7f080007;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1353,9 +1354,9 @@ containing a value of this type.
         public static final int message=0x7f05006b;
         public static final int middle=0x7f050024;
         public static final int never=0x7f05001b;
-        public static final int newAccountButton=0x7f050074;
         public static final int none=0x7f050022;
         public static final int normal=0x7f050012;
+        public static final int offlineModeButton=0x7f050074;
         public static final int passwordLayout=0x7f05006f;
         public static final int passwordText=0x7f050070;
         public static final int passwordValue=0x7f050071;
@@ -1519,8 +1520,8 @@ containing a value of this type.
         public static final int last_fix=0x7f0a0020;
         public static final int location=0x7f0a0011;
         public static final int loginButton=0x7f0a0027;
-        public static final int newAccountButton=0x7f0a0028;
         public static final int none=0x7f0a001f;
+        public static final int offlineMode=0x7f0a0028;
         public static final int passwordText=0x7f0a0022;
         public static final int resetButton=0x7f0a0026;
         public static final int speed=0x7f0a0014;

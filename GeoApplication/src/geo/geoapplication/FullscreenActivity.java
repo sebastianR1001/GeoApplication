@@ -77,7 +77,7 @@ public class FullscreenActivity extends Activity {
     private Button startButton;
     private Button resetButton;
     private Button loginButton;
-    private Button newAccountButton;
+    private Button offlineModeButton;
     
     private int contentHeight;
     
@@ -125,7 +125,9 @@ public class FullscreenActivity extends Activity {
         	customHandler.postDelayed(updateTimerThread, 0);
         	startButton.setText("START");
         }
-        
+        else if(GeoService.StaticData.logged){
+        	//AdvancedLinearShow(contentView.getHeight() - 420);
+        }
                                
         //timer
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +180,7 @@ public class FullscreenActivity extends Activity {
         advancedLinear.setOnClickListener(new View.OnClickListener() {
 	        public void onClick(View view) {
 	        	if(GeoService.StaticData.advancedLinearIsHide) {
-	        		AdvancedLinearShow(contentView.getHeight() - 400);
+	        		AdvancedLinearShow(contentView.getHeight() - 420);
 	        		GeoService.StaticData.advancedLinearIsHide = false;
 	        	}
 	        	else {
@@ -251,7 +253,7 @@ public class FullscreenActivity extends Activity {
 	        errorMessage = (TextView)findViewById(R.id.message);
 	        
 	        loginButton = (Button) findViewById(R.id.loginButton);
-	        newAccountButton = (Button) findViewById(R.id.newAccountButton);
+	        offlineModeButton = (Button) findViewById(R.id.offlineModeButton);
 	        
 	        //login
 	        loginButton.setOnClickListener(new View.OnClickListener() {
@@ -261,7 +263,7 @@ public class FullscreenActivity extends Activity {
 			        	new Login(user.getText().toString(), password.getText().toString());
 			        	
 			        	int tryingCount = 0;
-			        	startMyService();
+			        	
 			        	while(GeoService.StaticData.user.equals("") && tryingCount < 100) {
 			        		try {
 								Thread.sleep(100);
@@ -271,20 +273,34 @@ public class FullscreenActivity extends Activity {
 							}
 			        		tryingCount++;
 			        	}
+			        	tryingCount = 0;
+			        	
+			        	if(GeoService.StaticData.user.equals("login error")) {
+			        		errorMessage.setText("Username or password is incorrect!");
+			        		GeoService.StaticData.user = "";
+			        	}
+			        	else if(GeoService.StaticData.user.equals("connection error")) {
+			        		errorMessage.setText("Unable to connect to the Internet!");
+			        		GeoService.StaticData.user = "";
+			        	}
 		        	}
-		        	
-		        	if(GeoService.StaticData.user.equals("login error")) {
-		        		errorMessage.setText("bledny login lub haslo");
-		        	}
-		        	else if(GeoService.StaticData.user.equals("")) {
-		        		errorMessage.setText("brak polaczenia z serwerem!!");
-		        	}
-		        	
+
 		        	if(GeoService.StaticData.logged || !loginIsRequired) {
-		        	//	startMyService();
+		        		startMyService();
 		        		GeoService.StaticData.logged = true;
 		        		onCreate(finalSavedInstanceState);
 		        	}
+		        }
+	        });
+	        
+	      //login
+	        offlineModeButton.setOnClickListener(new View.OnClickListener() {
+		        public void onClick(View view) {
+		        	
+		        	GeoService.StaticData.logged = true;
+		        	GeoService.StaticData.user = "guest";
+		            startMyService();
+		        	onCreate(finalSavedInstanceState);
 		        }
 	        });
         }
@@ -393,7 +409,7 @@ public class FullscreenActivity extends Activity {
 		viewLocation.setText(GeoService.StaticData.getLocation());
 		accuracy.setText(GeoService.StaticData.getAccuracy());
     	lastFix.setText(GeoService.StaticData.getLastFix());
-    	userName.setText(GeoService.StaticData.user);
+    	userName.setText("user: " + GeoService.StaticData.user);
     }
     
     private void CreateAlert() {

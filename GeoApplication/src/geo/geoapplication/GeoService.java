@@ -111,7 +111,7 @@ public class GeoService extends Service {
     private Location location;
     private Handler customHandler = new Handler();
     
-	private Toast toast;
+//	private Toast toast;
 	public static long startTime = 0L;
 	public static long ignoredTime = 0L;
 	public static long startDelay = 0L;
@@ -122,13 +122,13 @@ public class GeoService extends Service {
     long updatedTime = 0L;
     
     private void showToast(String text) {
-        toast.setText(text);
-        toast.show();
+  //      toast.setText(text);
+  //      toast.show();
     }
 	
 	private Runnable updateTimerThread = new Runnable() {
     	public void run() {
-    		showToast(StaticData.getTime());
+    	//	showToast(StaticData.getTime());
     		if(StaticData.timeStarted) {
 		    	timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
 		    	updatedTime = timeSwapBuff + timeInMilliseconds - ignoredTime;
@@ -143,7 +143,7 @@ public class GeoService extends Service {
 		    	+ String.format("%02d", secs));
     		}
     		else if(!StaticData.timeStoped){
-    			showToast("0:00:00");
+    	//		showToast("0:00:00");
     		}
     		else {
     			delayInMilliseconds = SystemClock.uptimeMillis() - startDelay;
@@ -170,19 +170,22 @@ public class GeoService extends Service {
         
         @Override
         public void onLocationChanged(Location location) {
-        	StaticData.setSpeed(gps.showSpeed());
-        	if(GeoService.StaticData.timeStarted) {
-        		StaticData.setDistance(gps.showDistance());
-        	}
-        	StaticData.setDistanceUnit(gps.showDistanceUnit());
-        	StaticData.setAltitude(gps.showElevation());
-        	
         	gps.location = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         	        	
             if(gps.savedLocation == null)
                 gps.savedLocation = gps.locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             
-            StaticData.points.add(SendGpsInformation.getGpsMessage());
+            StaticData.setSpeed(gps.showSpeed());
+        	if(GeoService.StaticData.timeStarted) {
+        		StaticData.setDistance(gps.showDistance());
+        	}
+        	StaticData.setDistanceUnit(gps.showDistanceUnit());
+        	StaticData.setAltitude(gps.showElevation());
+        	StaticData.setLocation(gps.showLocation());
+            
+            if(StaticData.timeStarted) {
+            	StaticData.points.add(SendGpsInformation.getGpsMessage());
+            }
         
             new WaitingForStop().execute();
         }
@@ -197,7 +200,9 @@ public class GeoService extends Service {
 		
 		gps = new Gps(locationManager, location);
 		
-	//	new SendGpsInformation();
+		if(!StaticData.user.equals("guest")) {
+			new SendGpsInformation();
+		}
 
 		StaticData.setGpsInformation(gps.getGpsStatus());
 		
@@ -238,7 +243,7 @@ public class GeoService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+       // toast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         GpsInit();  //initialize gps
         gps.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 
                 3000, 
@@ -250,13 +255,13 @@ public class GeoService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
     	startTime = SystemClock.uptimeMillis();
     	customHandler.postDelayed(updateTimerThread, 0);
-    	showToast("Your service has been started");
+    //	showToast("Your service has been started");
         return super.onStartCommand(intent, flags, startId);
     }
  
     @Override
     public void onDestroy() {
-    	showToast("0:00:00");
+    	//showToast("0:00:00");
     	timeSwapBuff += timeInMilliseconds;
     	customHandler.removeCallbacks(updateTimerThread);
     	gps.locationManager.removeUpdates(locationListener);
