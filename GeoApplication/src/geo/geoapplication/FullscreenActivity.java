@@ -1,5 +1,6 @@
 package geo.geoapplication;
 
+import geo.geoapplication.GeoService.StaticData;
 import geo.geoapplication.util.SystemUiHider;
 
 import android.annotation.TargetApi;
@@ -154,6 +155,8 @@ public class FullscreenActivity extends Activity {
 	        		customHandler.postDelayed(updateTimerThread, 0);
 	        		startButton.setText("STOP");
 	        	}
+	        	//debug//////////////////////////////////////////
+	    		//StaticData.points.add(SendGpsInformation.getGpsMessage());
 	        }
         });
         
@@ -275,14 +278,15 @@ public class FullscreenActivity extends Activity {
 			        	}
 			        	tryingCount = 0;
 			        	
-			        	if(GeoService.StaticData.user.equals("login error")) {
-			        		errorMessage.setText("Username or password is incorrect!");
-			        		GeoService.StaticData.user = "";
-			        	}
-			        	else if(GeoService.StaticData.user.equals("connection error")) {
-			        		errorMessage.setText("Unable to connect to the Internet!");
-			        		GeoService.StaticData.user = "";
-			        	}
+		        	}
+		        	
+		        	if(GeoService.StaticData.user.equals("login error")) {
+		        		errorMessage.setText("Username or password is incorrect!");
+		        		GeoService.StaticData.user = "";
+		        	}
+		        	else if(GeoService.StaticData.user.equals("connection error")) {
+		        		errorMessage.setText("Unable to connect to the Internet!");
+		        		GeoService.StaticData.user = "";
 		        	}
 
 		        	if(GeoService.StaticData.logged || !loginIsRequired) {

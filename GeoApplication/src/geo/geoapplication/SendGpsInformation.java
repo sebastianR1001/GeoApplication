@@ -17,6 +17,7 @@ public class SendGpsInformation {
             		if(GeoService.StaticData.points.size() > 0) {
 		                try{
 		                    URL url = new URL("http://192.168.43.149:8080/gis_server/GetGpsInformation");
+		                    //URL url = new URL("http://10.237.140.71:8080/gis_server/GetGpsInformation");
 		                    URLConnection connection = url.openConnection();
 		
 		                    //inputString = URLEncoder.encode(inputString, "UTF-8");
@@ -69,13 +70,15 @@ public class SendGpsInformation {
 			gpsMessage += GeoService.StaticData.getLocation();
 			//gpsMessage += "25.3456;14.2578";
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getSpeed();
+			gpsMessage += GeoService.StaticData.getSpeed().replace(',', '.');
+			//gpsMessage += "12.5";
 			gpsMessage += "|";
 			gpsMessage += GeoService.StaticData.getTime();
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getDistance();
+			gpsMessage += GeoService.StaticData.getDistance().replace(',', '.');
+			//gpsMessage += "100.5";
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getAltitude();
+			gpsMessage += GeoService.StaticData.getAltitude().replace(',', '.');
 			//gpsMessage += "124.5678";
 			gpsMessage += "|";
 		}

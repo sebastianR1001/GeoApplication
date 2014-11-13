@@ -17,6 +17,7 @@ public class Login {
                 try{
                 	String md5Password = getMd5Hash(password);
                     URL url = new URL("http://192.168.43.149:8080/gis_server/LoginFromAndroid");
+                    //URL url = new URL("http://10.237.140.71:8080/gis_server/LoginFromAndroid");
                     URLConnection connection = url.openConnection();
                     
                     //inputString = URLEncoder.encode(inputString, "UTF-8");
