@@ -13,11 +13,10 @@ public class Login {
 	public Login(final String user, final String password) {
 		new Thread(new Runnable() {
             public void run() {
-
                 try{
                 	String md5Password = getMd5Hash(password);
-                    URL url = new URL("http://192.168.43.149:8080/gis_server/LoginFromAndroid");
-                    //URL url = new URL("http://10.237.140.71:8080/gis_server/LoginFromAndroid");
+                    URL url = new URL(Connection.host +"/gis_server/LoginFromAndroid");
+                    
                     URLConnection connection = url.openConnection();
                     
                     //inputString = URLEncoder.encode(inputString, "UTF-8");

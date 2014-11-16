@@ -1,5 +1,6 @@
 package geo.geoapplication;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,6 +122,8 @@ public class GeoService extends Service {
     long timeSwapBuff = 0L;
     long updatedTime = 0L;
     
+    double iter = 0.0;
+    
     private void showToast(String text) {
   //      toast.setText(text);
   //      toast.show();
@@ -148,6 +151,21 @@ public class GeoService extends Service {
     		else {
     			delayInMilliseconds = SystemClock.uptimeMillis() - startDelay;
     		}
+    		//debug//////////////////////////////////////////
+    		if(StaticData.getLocation().length() < 10) {
+    			StaticData.setLocation("25.3456;14.25");
+    		}
+    		else {
+    			DecimalFormat df = new DecimalFormat();
+    			df.setMaximumFractionDigits(2);
+    		    df.setMinimumFractionDigits(2);
+
+    			StaticData.setLocation("25.3456;" + df.format(iter));
+    			
+    			iter+=0.1;
+    		}
+    		StaticData.points.add(SendGpsInformation.getGpsMessage());
+    		
     		customHandler.postDelayed(this, 0);
     	}
 	};

@@ -155,8 +155,6 @@ public class FullscreenActivity extends Activity {
 	        		customHandler.postDelayed(updateTimerThread, 0);
 	        		startButton.setText("STOP");
 	        	}
-	        	//debug//////////////////////////////////////////
-	    		//StaticData.points.add(SendGpsInformation.getGpsMessage());
 	        }
         });
         
@@ -433,6 +431,11 @@ public class FullscreenActivity extends Activity {
 	        	GeoService.StaticData.totalDistance = 0;
 	        	GeoService.StaticData.setTime("0:00:00");
 	        	GeoService.delayInMilliseconds = 0L;
+	        	GeoService.ignoredTime = 0L;
+	        	GeoService.startDelay = 0L;
+	        	GeoService.startTime = 0L;
+	        	GeoService.StaticData.points.removeAll(null);
+	        	
 	        	stopMyService();
 	        	finish();
 	        }
