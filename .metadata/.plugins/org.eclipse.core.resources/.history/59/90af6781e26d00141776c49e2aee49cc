@@ -429,7 +429,6 @@ public class FullscreenActivity extends Activity {
 	        	GeoService.StaticData.logged = false;
 	        	GeoService.StaticData.user = "";
 	        	GeoService.StaticData.totalDistance = 0;
-	        	GeoService.StaticData.verificationCode = "";
 	        	GeoService.StaticData.setTime("0:00:00");
 	        	GeoService.delayInMilliseconds = 0L;
 	        	GeoService.ignoredTime = 0L;

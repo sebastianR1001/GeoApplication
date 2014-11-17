@@ -40,17 +40,7 @@ public class SendGpsInformation {
 		                    in.close();
 		
 		                    if(result.contains("true")) {
-		                    	GeoService.StaticData.logged = true;
-		                    	String verifyCode = "";
-		                    	for(int i=4; i<result.length(); i++) {
-		                    		verifyCode += result.charAt(i);
-		                    	}
-		                    	
-		                    	GeoService.StaticData.verificationCode = verifyCode;
 		                    	GeoService.StaticData.points.remove(0);
-		                    }
-		                    else if(result.contains("false")){
-		                    	GeoService.StaticData.logged = false;
 		                    }
 		
 		                }catch(Exception e)
@@ -59,7 +49,7 @@ public class SendGpsInformation {
 		                }
             		}
             		try {
-						Thread.sleep(3000);
+						Thread.sleep(10000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -81,16 +71,16 @@ public class SendGpsInformation {
 			gpsMessage += GeoService.StaticData.getLocation();
 			//gpsMessage += "25.3456;14.2578";
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getSpeed().replace(',', '.');
-			//gpsMessage += "12.5";
+			//gpsMessage += GeoService.StaticData.getSpeed().replace(',', '.');
+			gpsMessage += "12.5";
 			gpsMessage += "|";
 			gpsMessage += GeoService.StaticData.getTime();
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getDistance().replace(',', '.');
-			//gpsMessage += "100.5";
+			//gpsMessage += GeoService.StaticData.getDistance().replace(',', '.');
+			gpsMessage += "100.5";
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getAltitude().replace(',', '.');
-			//gpsMessage += "124.5678";
+			//gpsMessage += GeoService.StaticData.getAltitude().replace(',', '.');
+			gpsMessage += "124.5678";
 			gpsMessage += "|";
 		}
 		else {

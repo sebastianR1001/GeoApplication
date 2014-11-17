@@ -59,7 +59,7 @@ public class SendGpsInformation {
 		                }
             		}
             		try {
-						Thread.sleep(3000);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -81,16 +81,16 @@ public class SendGpsInformation {
 			gpsMessage += GeoService.StaticData.getLocation();
 			//gpsMessage += "25.3456;14.2578";
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getSpeed().replace(',', '.');
-			//gpsMessage += "12.5";
+			//gpsMessage += GeoService.StaticData.getSpeed().replace(',', '.');
+			gpsMessage += "12.5";
 			gpsMessage += "|";
 			gpsMessage += GeoService.StaticData.getTime();
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getDistance().replace(',', '.');
-			//gpsMessage += "100.5";
+			//gpsMessage += GeoService.StaticData.getDistance().replace(',', '.');
+			gpsMessage += "100.5";
 			gpsMessage += "|";
-			gpsMessage += GeoService.StaticData.getAltitude().replace(',', '.');
-			//gpsMessage += "124.5678";
+			//gpsMessage += GeoService.StaticData.getAltitude().replace(',', '.');
+			gpsMessage += "124.5678";
 			gpsMessage += "|";
 		}
 		else {
