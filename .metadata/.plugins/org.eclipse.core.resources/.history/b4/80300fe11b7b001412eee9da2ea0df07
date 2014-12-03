@@ -1,0 +1,109 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/alik"
+    tools:context="geo.geoapplication.LoginActivity" >
+   
+  <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="top"
+        android:orientation="vertical"  >
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+		        android:id="@+id/userLayout"
+		        style="?metaButtonBarStyle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="5"
+		        android:background="@color/black_overlay"
+		        android:orientation="vertical"
+		        tools:ignore="UselessParent" >  
+		        
+		        
+			    <EditText
+		            android:id="@+id/editNote"
+		            android:layout_width="match_parent"
+		            android:layout_marginLeft="20dp"
+        			android:layout_marginRight="20dp"
+		            android:layout_height="350dp"
+		            android:ems="10"
+		            android:background="@color/white_overlay"
+		            android:textColor="@color/dark_green"
+		            android:inputType="textMultiLine" />
+	        </LinearLayout>
+        </TableRow>
+		
+    </TableLayout>
+    
+  <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"  >
+    
+	<TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            >
+            
+	    <LinearLayout
+		        android:id="@+id/userLayout"
+		        style="?metaButtonBarStyle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="5"
+		        android:background="@color/black_overlay"
+		        android:orientation="vertical"
+		        tools:ignore="UselessParent" >  
+	            <Button
+			        android:id="@+id/publicNote"
+			        android:layout_width="135dp"
+	            	android:layout_height="wrap_content"
+	            	android:layout_marginLeft="10dp"
+			        android:textSize="20sp"
+			        android:text="@string/publicNote" />
+	            
+	            
+	            <Button
+			        android:id="@+id/privateNote"
+			        android:layout_width="135dp"
+	            	android:layout_height="wrap_content"
+			        android:layout_marginRight="10dp"
+			        android:textSize="20sp"
+			        android:text="@string/privateNote" />
+            </LinearLayout>
+		</TableRow>
+    </TableLayout>
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent" >
+        </LinearLayout>
+
+        <requestFocus />
+    </FrameLayout>
+
+
+</FrameLayout>

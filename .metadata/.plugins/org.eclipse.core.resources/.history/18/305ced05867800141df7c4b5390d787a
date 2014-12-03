@@ -1,0 +1,193 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/alik"
+    tools:context="geo.geoapplication.LoginActivity" >
+
+   <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+   
+   
+   <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"  >
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+		        android:id="@+id/userLayout"
+		        style="?metaButtonBarStyle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="5"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="10dp"
+		        android:background="@color/black_overlay"
+		        android:orientation="vertical"
+		        tools:ignore="UselessParent" >  
+		        
+                <TextView
+			        android:id="@+id/message"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:gravity="center"
+			        android:keepScreenOn="true"
+			        android:textSize="20sp"
+			        android:text="@string/none"
+			        android:textColor="@color/red"
+			        android:textStyle="bold" />
+		        
+			    <TextView
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:layout_marginTop="5dp"
+			        android:layout_marginLeft="10dp"
+			        android:text="@string/userText"
+			        android:id="@+id/userText"
+			        android:textColor="#ffffff"
+			        android:textSize="12sp"
+			        android:textStyle="bold" />
+		        
+			    <EditText
+			       android:id="@+id/userValue"
+			       android:layout_width="match_parent"
+			       android:layout_height="wrap_content"
+			       android:gravity="center"
+			       android:background="@color/white_overlay"
+			       android:layout_marginRight="10dp"
+		           android:layout_marginLeft="10dp"
+			       android:layout_marginTop="10dp"
+			       android:layout_marginBottom="10dp"
+			       android:textColor="#000000"
+			       android:ems="20" >
+
+       				<requestFocus />
+   				</EditText>
+	        </LinearLayout>
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            >
+            <LinearLayout
+		        android:id="@+id/passwordLayout"
+		        style="?metaButtonBarStyle"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="5"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="10dp"
+		        android:background="@color/black_overlay"
+		        android:orientation="vertical"
+		        tools:ignore="UselessParent" >  
+		        
+			    <TextView
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:layout_marginTop="5dp"
+			        android:layout_marginLeft="10dp"
+			        android:text="@string/passwordText"
+			        android:id="@+id/passwordText"
+			        android:textColor="#ffffff"
+			        android:textSize="12sp"
+			        android:textStyle="bold" />
+		        
+			    <EditText
+			       android:id="@+id/passwordValue"
+			       android:layout_width="match_parent"
+			       android:layout_height="wrap_content"
+			       android:gravity="center"
+			       android:background="@color/white_overlay"
+			       android:layout_marginRight="10dp"
+		           android:layout_marginLeft="10dp"
+			       android:layout_marginTop="10dp"
+			       android:layout_marginBottom="10dp"
+			       android:inputType="textPassword"
+			       android:textColor="#000000"
+			       android:ems="20" >
+
+       				<requestFocus />
+   				</EditText>
+	        </LinearLayout>
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            >
+            
+            <Button
+		        android:id="@+id/loginButton"
+		        android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="10dp"
+		        android:textSize="20sp"
+		        android:text="@string/loginButton" />
+		</TableRow>
+		
+		<TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            >
+            
+            <Button
+		        android:id="@+id/offlineModeButton"
+		        android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dp"
+		        android:layout_marginRight="10dp"
+		        android:textSize="20sp"
+		        android:text="@string/offlineMode" />
+		</TableRow>
+    </TableLayout>
+    <!--
+         This FrameLayout insets its children based on system windows using
+         android:fitsSystemWindows.
+    -->
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?metaButtonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent" >
+        </LinearLayout>
+
+        <requestFocus />
+
+
+    </FrameLayout>
+
+
+</FrameLayout>

@@ -1,0 +1,8 @@
+package geo.geoapplication;
+
+public class SendNote {
+
+	SendNote() {
+	
+	}
+}

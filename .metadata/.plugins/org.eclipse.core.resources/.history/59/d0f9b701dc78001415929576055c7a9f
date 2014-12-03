@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GeoApplication</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="geo_application">GEO\nAPPLICATION</string>
+    
+    <string name="location">Location: </string>
+    <string name="gpsState">GPS Disabled. Please, turn it on</string>
+    
+    <string name="speedText">Speed</string>
+    <string name="speed">0</string>
+    <string name="speedUnit">km/h</string>
+    
+    <string name="time">0:00:00</string>
+    <string name="timeText">Time</string>
+    
+    <string name="accuracy">Accuracy:</string>
+    
+    <string name="distance">0</string>
+    <string name="distanceUnit">m</string>
+    <string name="distanceText">Distance</string>
+    
+    <string name="altitude">0</string>
+    <string name="altitudeUnit">AMSL</string>
+    <string name="altitudeText">Altitude</string>
+    
+    <string name="none"></string>
+    
+    <string name="last_fix">Last fix:</string>
+    
+    <string name="userText">USER</string>
+    <string name="passwordText">PASSWORD</string>
+    
+    <string name="userName">user: </string>
+    
+    <string name="startButton">START</string>
+    <string name="stopButton">STOP</string>
+    <string name="resetButton">RESET</string>
+    <string name="loginButton">LOGIN</string>
+    <string name="offlineMode">OFFLINE MODE</string>
+    
+    <string name="advancedText">ADVANCED</string>
+    
+    <string name="note">NOTE</string>
+    
+    <string name="publicNote">PUBLIC</string>
+    <string name="privateNote">PRIVATE</string>
+    
+
+</resources>

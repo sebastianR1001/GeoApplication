@@ -1,0 +1,7 @@
+package geo.geoapplication;
+
+public class Photos {
+	public Photos() {
+		
+	}
+}
