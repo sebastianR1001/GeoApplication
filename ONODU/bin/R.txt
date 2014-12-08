@@ -256,11 +256,12 @@ int drawable alik 0x7f020057
 int drawable aparat 0x7f020058
 int drawable ic_launcher 0x7f020059
 int drawable notes 0x7f02005a
-int drawable onoduik 0x7f02005b
-int drawable play 0x7f02005c
-int drawable reset 0x7f02005d
-int drawable stop 0x7f02005e
-int drawable tlo 0x7f02005f
+int drawable onodu 0x7f02005b
+int drawable onoduik 0x7f02005c
+int drawable play 0x7f02005d
+int drawable reset 0x7f02005e
+int drawable stop 0x7f02005f
+int drawable tlo 0x7f020060
 int id accuracy 0x7f050069
 int id action_bar 0x7f05002d
 int id action_bar_activity_content 0x7f050026
