@@ -4,7 +4,6 @@ INDEX VERSION 1.126+C:\Users\sraczkow\Desktop\INZ\GeoApplication\GeoApplication\
 3951181080.index
 3079022867.index
 1284074322.index
-2671012926.index
 1377913038.index
 586523135.index
 1162363075.index

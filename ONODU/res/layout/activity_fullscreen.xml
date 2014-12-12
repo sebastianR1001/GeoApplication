@@ -20,53 +20,77 @@
         android:textSize="50sp"
         android:textStyle="bold" />
     
+    <ImageView
+		android:layout_width="wrap_content"
+		android:layout_height="30dp"
+		android:layout_marginLeft="-60dp"
+		android:layout_marginTop="10dp"
+		android:layout_weight="1.00"
+		android:src="@drawable/onodu" />
+    
      <TableLayout
         android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp" 
+        android:layout_marginTop="70dp" 
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"  >
         
-         <TableRow
-            android:id="@+id/tableRow0"
+          <TableRow
+            android:id="@+id/tableRow435"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             >
-            
-             <LinearLayout
-		        style="?metaButtonBarStyle"
-		        android:layout_width="135dp"
-		        android:layout_height="wrap_content"
-		        android:background="@color/black_overlay"
-		        android:orientation="vertical"
-		        tools:ignore="UselessParent" >
-	            <ImageView
-		            android:id="@+id/startButton"
-			        android:layout_width="70dp"
-			        android:layout_height="70dp"
-			        android:layout_marginLeft="35dp"
-			        android:layout_gravity="left"
-		            android:layout_weight="1.00"
-		            android:src="@drawable/play" />
-            </LinearLayout>
 
-		     <LinearLayout
+            <LinearLayout
 		        style="?metaButtonBarStyle"
-		        android:layout_width="135dp"
+		        android:layout_width="290dp"
 		        android:layout_height="wrap_content"
+		        android:layout_weight="5"
+		        android:layout_marginLeft="10dp"
 		        android:background="@color/black_overlay"
 		        android:orientation="vertical"
-		        tools:ignore="UselessParent" >
-			     <ImageView
-		            android:id="@+id/resetButton"
-			        android:layout_width="70dp"
-			        android:layout_height="70dp"
-			        android:layout_marginRight="20dp"
-			        android:layout_gravity="right"
-		            android:layout_weight="1.00"
-		            android:src="@drawable/reset" />
+		        tools:ignore="UselessParent" > 
+		   </LinearLayout>
+		   
+          <LinearLayout
+		        style="?metaButtonBarStyle"
+		        android:layout_width="290dp"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="5"
+		        android:layout_marginRight="10dp"
+		        android:background="@color/black_overlay"
+		        android:orientation="vertical"
+		        tools:ignore="UselessParent" >  
+		  
+                <TableLayout
+			        android:layout_width="wrap_content"
+		            android:layout_height="wrap_content">
+	              <TableRow
+		            android:id="@+id/tableRow430"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginTop="0dp"
+		            >
+			           <ImageView
+				            android:id="@+id/note"
+				            android:layout_width="wrap_content"
+				            android:layout_height="40dp"
+				            android:layout_marginLeft="20dp"
+				            android:layout_marginTop="0dp"
+				            android:layout_weight="1.00"
+				            android:src="@drawable/notes" />
+			            
+			           <ImageView
+				            android:id="@+id/camera"
+				            android:layout_width="wrap_content"
+				            android:layout_height="30dp"
+				            android:layout_marginTop="11dp"
+				            android:layout_weight="1.00"
+				            android:src="@drawable/aparat" />  
+			       </TableRow> 
+			    </TableLayout>
 			</LinearLayout>
-
         </TableRow>
         
         <TableRow
@@ -267,37 +291,38 @@
         </TableRow>
         
         <TableRow
-            android:id="@+id/tableRow45"
+            android:id="@+id/tableRow0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            >
-            
-            
-            <ImageView
-	            android:id="@+id/note"
-	            android:layout_width="0dp"
-	            android:layout_height="60dp"
-	            android:layout_marginTop="10dp"
-	            android:layout_weight="1.00"
-	            android:src="@drawable/notes" />
+            android:layout_marginTop="30dp"
+            >            
 
-		     <ImageView
-	            android:id="@+id/camera"
-	            android:layout_width="0dp"
-	            android:layout_height="80dp"
-	            android:layout_weight="1.00"
-	            android:src="@drawable/aparat" />
+	            <ImageView
+		            android:id="@+id/startButton"
+			        android:layout_width="72dp"
+			        android:layout_height="70dp"
+			        android:layout_marginLeft="10dp"
+			        android:layout_gravity="left"
+		            android:layout_weight="1.00"
+		            android:src="@drawable/play" />
 
+			     <ImageView
+		            android:id="@+id/resetButton"
+			        android:layout_width="70dp"
+			        android:layout_height="70dp"
+			        android:layout_marginRight="5dp"
+			        android:layout_gravity="right"
+		            android:layout_weight="1.00"
+		            android:src="@drawable/reset" />
         </TableRow>
-        
+
     </TableLayout>
 
 	   <LinearLayout
 	        android:id="@+id/advanced"
 	        style="?metaButtonBarStyle"
 	        android:layout_width="match_parent"
-	        android:layout_height="40dp"
+	        android:layout_height="240dp"
 	        android:layout_gravity="bottom|center_horizontal"
 	        android:background="@color/dark_green"
 	        android:orientation="vertical"
