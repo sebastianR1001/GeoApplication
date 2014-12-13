@@ -244,7 +244,6 @@ public class FullscreenActivity extends Activity {
 	        	
 	        	cancelButton.setOnClickListener(new View.OnClickListener() {
 			        public void onClick(View view) {
-			        	editNote.setText("");
 			        	onCreate(finalSavedInstanceState);
 			        }
 	        	});
@@ -252,7 +251,6 @@ public class FullscreenActivity extends Activity {
 	        	publicButton.setOnClickListener(new View.OnClickListener() {
 			        public void onClick(View view) {
 			        	new SendNote(true, editNote.getText().toString());
-			        	editNote.setText("");
 			        	onCreate(finalSavedInstanceState);
 			        }
 	        	});
@@ -260,7 +258,6 @@ public class FullscreenActivity extends Activity {
 	        	privateButton.setOnClickListener(new View.OnClickListener() {
 			        public void onClick(View view) {
 			        	new SendNote(false, editNote.getText().toString());
-			        	editNote.setText("");
 			        	onCreate(finalSavedInstanceState);
 			        }
 	        	});

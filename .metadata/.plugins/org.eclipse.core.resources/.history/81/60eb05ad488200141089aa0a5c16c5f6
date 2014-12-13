@@ -240,27 +240,23 @@ public class FullscreenActivity extends Activity {
 	        	cancelButton = (Button) findViewById(R.id.cancelNote);
 	        	publicButton = (Button) findViewById(R.id.publicNote);
 	        	privateButton = (Button) findViewById(R.id.privateNote);
-	        	editNote = (EditText) findViewById(R.id.editNote);
 	        	
 	        	cancelButton.setOnClickListener(new View.OnClickListener() {
 			        public void onClick(View view) {
-			        	editNote.setText("");
 			        	onCreate(finalSavedInstanceState);
 			        }
 	        	});
 	        	
 	        	publicButton.setOnClickListener(new View.OnClickListener() {
 			        public void onClick(View view) {
-			        	new SendNote(true, editNote.getText().toString());
-			        	editNote.setText("");
+			        	new SendNote(true);
 			        	onCreate(finalSavedInstanceState);
 			        }
 	        	});
 	        	
 	        	privateButton.setOnClickListener(new View.OnClickListener() {
 			        public void onClick(View view) {
-			        	new SendNote(false, editNote.getText().toString());
-			        	editNote.setText("");
+			        	new SendNote(false);
 			        	onCreate(finalSavedInstanceState);
 			        }
 	        	});

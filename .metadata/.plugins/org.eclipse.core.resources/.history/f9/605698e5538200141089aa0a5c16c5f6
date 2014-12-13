@@ -9,15 +9,13 @@ import java.net.URLConnection;
 public class SendNote {
 
 	public SendNote(boolean publicNote, String note) {
-		
-		String access = publicNote ? "public" : "private";
 		try{
             URL url = new URL(Connection.host +"/gis_server/GetNoteFromAndroid");
             URLConnection connection = url.openConnection();
 
             connection.setDoOutput(true);
             OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-            out.write(GetLetter(access, note));
+            out.write(GetLetter(publicNote, note));
             out.close();
 
             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -44,7 +42,7 @@ public class SendNote {
         }
 	}
 	
-	private String GetLetter(String  access, String note) {
+	private String GetLetter(boolean publicNote, String note) {
 		String letter = "";
 		
 		if(GeoService.StaticData.logged) {
@@ -54,9 +52,7 @@ public class SendNote {
 			letter += "|";
 			letter += GeoService.StaticData.getLocation();
 			letter += "|";
-			letter += GeoService.StaticData.getAltitude();
-			letter += "|";
-			letter += access;
+			letter += publicNote;
 			letter += "|";
 			letter += note;
 			letter += "|";
